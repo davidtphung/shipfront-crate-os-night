@@ -159,6 +159,64 @@
   animation: breathe 5.5s var(--ease-smooth) infinite;
 }
 
+.still-card {
+  transform-origin: center;
+}
+
+.still-frame {
+  isolation: isolate;
+}
+
+.still-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.still-ken {
+  animation-duration: 16s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.still-ken--in {
+  animation-name: ken-in;
+}
+
+.still-ken--left {
+  animation-name: ken-left;
+}
+
+.still-ken--right {
+  animation-name: ken-right;
+}
+
+.still-ken--up {
+  animation-name: ken-up;
+}
+
+.still-card:hover .still-media {
+  animation-play-state: paused;
+  transform: scale(1.12);
+}
+
+.still-card:hover .still-ken--left {
+  transform: scale(1.12) translate3d(-2%, 0, 0);
+}
+
+.still-card:hover .still-ken--right {
+  transform: scale(1.12) translate3d(2%, 0, 0);
+}
+
+.still-card:hover .still-ken--up {
+  transform: scale(1.12) translate3d(0, -2%, 0);
+}
+
 @keyframes flow {
   to {
     stroke-dashoffset: -220;
@@ -195,13 +253,59 @@
   }
 }
 
+@keyframes ken-in {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.6%, -1.2%, 0);
+  }
+}
+
+@keyframes ken-left {
+  from {
+    transform: scale(1.05) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(-3%, -0.8%, 0);
+  }
+}
+
+@keyframes ken-right {
+  from {
+    transform: scale(1.05) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(3%, -0.8%, 0);
+  }
+}
+
+@keyframes ken-up {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.13) translate3d(-0.6%, -3%, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .flow-dash,
   .scan-line,
-  .node-breathe {
+  .node-breathe,
+  .still-ken {
     animation: none !important;
+  }
+  .still-card,
+  .still-card:hover,
+  .still-card:active,
+  .still-media,
+  .still-card:hover .still-media,
+  .group\/button:active {
+    transform: none !important;
+    transition: none !important;
   }
 }
