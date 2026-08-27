@@ -163,7 +163,7 @@ export function NetworkExperience() {
               <ol className="grid gap-3 p-4 lg:hidden">
                 {nodes.map((node, i) => (
                   <li key={node.id}>
-                    <button
+                    <motion.button
                       type="button"
                       onClick={() => setActive(i)}
                       className={cn(
@@ -173,6 +173,16 @@ export function NetworkExperience() {
                           : "border-white/10",
                       )}
                       aria-pressed={active === i}
+                      whileHover={
+                        reduce
+                          ? undefined
+                          : { y: -2, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } }
+                      }
+                      whileTap={
+                        reduce
+                          ? undefined
+                          : { scale: 0.97, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } }
+                      }
                     >
                       <span className={cn("mt-1 h-2.5 w-2.5 shrink-0 rounded-full", active === i ? "bg-[#FF6A00]" : "bg-white")} />
                       <span>
@@ -183,27 +193,37 @@ export function NetworkExperience() {
                           {node.copy}
                         </span>
                       </span>
-                    </button>
+                    </motion.button>
                   </li>
                 ))}
               </ol>
 
               <div className="hidden flex-wrap gap-2 p-4 lg:flex">
                 {nodes.map((node, i) => (
-                  <button
+                  <motion.button
                     key={node.id}
-                    type={"button"}
+                    type="button"
                     onClick={() => setActive(i)}
                     className={cn(
                       "min-h-11 rounded-[12px] border px-3 text-[12px] font-medium",
                       active === i
                         ? "border-[#FF6A00] text-white"
-                        : "border-white/10 text-white/60 hover:text-white",
+                        : "border-white/10 text-white/60",
                     )}
                     aria-pressed={active === i}
+                    whileHover={
+                      reduce
+                        ? undefined
+                        : { scale: 1.05, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } }
+                    }
+                    whileTap={
+                      reduce
+                        ? undefined
+                        : { scale: 0.97, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } }
+                    }
                   >
                     {node.label}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </motion.div>
