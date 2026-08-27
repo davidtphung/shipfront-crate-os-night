@@ -1,13 +1,25 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { flowLabels } from "@/data/site-copy";
 
 export function FulfillmentFlow() {
   const reduce = useReducedMotion();
 
   return (
-    <figure className="relative overflow-hidden rounded-[20px] border border-white/8 bg-[#050505]">
+    <motion.figure
+      className="relative overflow-hidden rounded-[20px] border border-white/8 bg-[#050505]"
+      whileHover={
+        reduce
+          ? undefined
+          : { y: -4, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } }
+      }
+      whileTap={
+        reduce
+          ? undefined
+          : { scale: 0.97, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } }
+      }
+    >
       <figcaption className="sr-only">
         Illustrative Shipfront order flow from storefront through inventory, picking,
         packing, and delivery. Not live customer data.
@@ -160,6 +172,6 @@ export function FulfillmentFlow() {
           />
         ) : null}
       </div>
-    </figure>
+    </motion.figure>
   );
 }
