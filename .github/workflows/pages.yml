@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -28,12 +28,30 @@ jobs:
         env:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_BASE_PATH: /shipfront-crate-os-night
-      - uses: actions/configure-pages@v5
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
-          enablement: true
+          folder: out
+          branch: gh-pages
+          clean: true
       - uses: actions/upload-pages-artifact@v3
+        continue-on-error: true
         with:
           path: out
+      - name: Enable GitHub Pages from gh-pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST repos/${{ github.repository }}/pages \
+            -H "Accept: application/vnd.github+json" \
+            -f source[branch]=gh-pages \
+            -f source[path]='/' \
+            && echo "pages created" \
+            || gh api -X PUT repos/${{ github.repository }}/pages \
+              -H "Accept: application/vnd.github+json" \
+              -f source[branch]=gh-pages \
+              -f source[path]='/' \
+              && echo "pages updated" \
+              || echo "pages API still refused"
 
   deploy:
     needs: build
@@ -44,3 +62,4 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true

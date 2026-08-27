@@ -48,7 +48,7 @@ Open [http://127.0.0.1:43147](http://127.0.0.1:43147).
 GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/shipfront-crate-os-night npm run build
 ```
 
-The static export is written to `out/` and published with GitHub Actions (`actions/deploy-pages`).
+The static export is written to `out/`, copied to the `gh-pages` branch, and also offered to GitHub Actions Pages.
 
 Cards keep Venice motion: ken-burns on the still, 220ms hover scale on the photo only, 80ms stagger dissolve, press `scale(0.97)`, interruptible. Type stays put while the still moves. `prefers-reduced-motion` flattens. Order-flow and network graph stay in motion on black.
 
