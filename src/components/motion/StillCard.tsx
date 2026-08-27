@@ -1,10 +1,19 @@
 "use client";
 
+import { useCallback, type CSSProperties, type PointerEvent, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { easeEnter, venice } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Ken = "in" | "left" | "right" | "up";
+
+function setStillPointer(target: HTMLElement, clientX: number, clientY: number) {
+  const rect = target.getBoundingClientRect();
+  const x = ((clientX - rect.left) / rect.width - 0.5) * 2;
+  const y = ((clientY - rect.top) / rect.height - 0.5) * 2;
+  target.style.setProperty("--still-x", `${(x * 12).toFixed(2)}px`);
+  target.style.setProperty("--still-y", `${(y * 9).toFixed(2)}px`);
+}
 
 export function StillCard({
   src,
@@ -22,10 +31,24 @@ export function StillCard({
   ken?: Ken;
   className?: string;
   stillClassName?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   stillFirst?: boolean;
 }) {
   const reduce = useReducedMotion();
+
+  const onMove = useCallback(
+    (event: PointerEvent<HTMLElement>) => {
+      if (reduce) return;
+      if (window.matchMedia("(pointer: coarse)").matches) return;
+      setStillPointer(event.currentTarget, event.clientX, event.clientY);
+    },
+    [reduce],
+  );
+
+  const onLeave = useCallback((event: PointerEvent<HTMLElement>) => {
+    event.currentTarget.style.setProperty("--still-x", "0px");
+    event.currentTarget.style.setProperty("--still-y", "0px");
+  }, []);
 
   return (
     <motion.article
@@ -33,6 +56,9 @@ export function StillCard({
         "still-card group overflow-hidden rounded-[20px] border border-white/8 bg-[#050505]",
         className,
       )}
+      style={{ "--still-x": "0px", "--still-y": "0px" } as CSSProperties}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
       initial={reduce ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.24 }}
@@ -85,15 +111,18 @@ function StillFrame({
 }) {
   return (
     <div className={cn("still-frame relative overflow-hidden", className)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        className={cn("still-media", !reduce && `still-ken still-ken--${ken}`)}
-        loading="lazy"
-        width={1600}
-        height={1067}
-      />
+      <div className="still-hover-layer">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          className={cn("still-media", !reduce && `still-ken still-ken--${ken}`)}
+          loading="lazy"
+          width={1600}
+          height={1067}
+        />
+      </div>
+      {!reduce ? <span className="still-scan" aria-hidden /> : null}
     </div>
   );
 }
@@ -103,7 +132,7 @@ export function MotionChip({
   delay = 0,
   className,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   delay?: number;
   className?: string;
 }) {

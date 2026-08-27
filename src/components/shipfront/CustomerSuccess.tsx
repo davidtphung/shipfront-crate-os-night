@@ -64,6 +64,7 @@ export function CustomerSuccess() {
               fill="none"
               stroke="#FFFFFF"
               strokeWidth="1.6"
+              className={reduce ? undefined : "flow-dash"}
             />
             <path
               d="M180 130 C 180 180, 240 200, 300 200"
@@ -71,10 +72,32 @@ export function CustomerSuccess() {
               stroke="#FFFFFF"
               strokeWidth="1.6"
               opacity="0.5"
+              className={reduce ? undefined : "flow-dash"}
             />
-            <circle cx="70" cy="70" r="28" fill="#111111" stroke="rgba(255,255,255,0.16)" />
-            <circle cx="180" cy="130" r="34" fill="#111111" stroke="#FFFFFF" />
-            <circle cx="300" cy="80" r="28" fill="#111111" stroke="rgba(255,255,255,0.16)" />
+            <circle
+              cx="70"
+              cy="70"
+              r="28"
+              fill="#111111"
+              stroke="rgba(255,255,255,0.16)"
+              className={reduce ? undefined : "node-breathe"}
+            />
+            <circle
+              cx="180"
+              cy="130"
+              r="34"
+              fill="#111111"
+              stroke="#FFFFFF"
+              className={reduce ? undefined : "node-breathe"}
+            />
+            <circle
+              cx="300"
+              cy="80"
+              r="28"
+              fill="#111111"
+              stroke="rgba(255,255,255,0.16)"
+              className={reduce ? undefined : "node-breathe"}
+            />
             <circle cx="300" cy="200" r="16" fill="#FFFFFF" />
             <text x="70" y="74" textAnchor="middle" fontSize="9" fill="#FFFFFF">
               Merchant

@@ -48,10 +48,8 @@ Open [http://127.0.0.1:43147](http://127.0.0.1:43147).
 GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/shipfront-crate-os-night npm run build
 ```
 
-The static export is written to `out/` and published to the `gh-pages` branch.
+The static export is written to `out/` and published with GitHub Actions (`actions/deploy-pages`).
 
-GitHub Pages has to be switched on once in the repo settings (a workflow token cannot create the Pages site):
-
-Settings, then Pages, then Source: Deploy from a branch, branch `gh-pages`, folder `/ (root)`.
+Cards keep Venice motion: ken-burns on the still, 220ms hover scale on the photo only, 80ms stagger dissolve, press `scale(0.97)`, interruptible. Type stays put while the still moves. `prefers-reduced-motion` flattens. Order-flow and network graph stay in motion on black.
 
 Copy is held from crate-os / [myshipfront.com](https://www.myshipfront.com/). Footer: Built by David T Phung.
