@@ -1,0 +1,4 @@
+:HL["/shipfront-crate-os-night/_next/static/chunks/19b79g9l0_flv.css","style"]
+:HL["/shipfront-crate-os-night/_next/static/media/0c89a48fa5027cee-s.p.2cyn07wtgehh0.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/shipfront-crate-os-night/_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"get-a-quote","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"3-7NWHoOBc95RuI6KSTn2"}
