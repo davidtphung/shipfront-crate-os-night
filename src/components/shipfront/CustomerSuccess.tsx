@@ -1,10 +1,28 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 import { customerSuccess } from "@/data/site-copy";
+import { easeEnter, venice } from "@/lib/motion";
 
 export function CustomerSuccess() {
+  const reduce = useReducedMotion();
+
   return (
     <section className="bg-black" aria-labelledby="success-heading">
       <div className="mx-auto grid max-w-[1440px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:py-28">
-        <div>
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={
+            reduce
+              ? { duration: 0 }
+              : {
+                  opacity: { duration: venice.dissolveMs / 1000, ease: easeEnter },
+                  y: { duration: venice.hoverMs / 1000, ease: easeEnter },
+                }
+          }
+        >
           <p className="text-[12px] font-medium tracking-[0.16em] text-[#FF6A00] uppercase">
             Customer success
           </p>
@@ -14,10 +32,31 @@ export function CustomerSuccess() {
           <p className="mt-4 max-w-[18ch] text-[34px] leading-[1.12] font-semibold tracking-[-0.04em] text-white sm:text-[48px] lg:text-[56px]">
             {customerSuccess.copy}
           </p>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
           className="rounded-[20px] border border-white/8 bg-[#050505] p-6"
           aria-hidden
+          initial={reduce ? false : { opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={
+            reduce
+              ? { duration: 0 }
+              : {
+                  opacity: { duration: venice.dissolveMs / 1000, delay: 0.08, ease: easeEnter },
+                  y: { duration: venice.hoverMs / 1000, delay: 0.08, ease: easeEnter },
+                }
+          }
+          whileHover={
+            reduce
+              ? undefined
+              : { y: -4, transition: { duration: venice.hoverMs / 1000, ease: easeEnter } }
+          }
+          whileTap={
+            reduce
+              ? undefined
+              : { scale: venice.press, transition: { duration: venice.hoverMs / 1000, ease: easeEnter } }
+          }
         >
           <svg viewBox="0 0 360 260" className="w-full">
             <path
@@ -53,7 +92,7 @@ export function CustomerSuccess() {
               Done
             </text>
           </svg>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
