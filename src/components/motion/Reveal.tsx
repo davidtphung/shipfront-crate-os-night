@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { easeEnter } from "@/lib/motion";
+import { easeEnter, venice } from "@/lib/motion";
 
 export function Reveal({
   children,
@@ -19,7 +19,14 @@ export function Reveal({
       initial={reduce ? false : { opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.28 }}
-      transition={{ duration: 0.7, delay, ease: easeEnter }}
+      transition={
+        reduce
+          ? { duration: 0 }
+          : {
+              opacity: { duration: venice.dissolveMs / 1000, delay, ease: easeEnter },
+              y: { duration: venice.hoverMs / 1000, delay, ease: easeEnter },
+            }
+      }
     >
       {children}
     </motion.div>
