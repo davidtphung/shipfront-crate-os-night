@@ -15,18 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  enable:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Enable GitHub Pages
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api -X POST repos/${{ github.repository }}/pages \
-            -H "Accept: application/vnd.github+json" \
-            -f build_type=workflow || true
-
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,16 +28,23 @@ jobs:
         env:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_BASE_PATH: /shipfront-crate-os-night
-      - uses: actions/upload-pages-artifact@v3
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: out
-
-  deploy:
-    needs: [enable, build]
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          folder: out
+          branch: gh-pages
+          clean: true
+      - name: Enable GitHub Pages from gh-pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST repos/${{ github.repository }}/pages \
+            -H "Accept: application/vnd.github+json" \
+            -f source[branch]=gh-pages \
+            -f source[path]='/' \
+            && echo "pages created" \
+            || gh api -X PUT repos/${{ github.repository }}/pages \
+              -H "Accept: application/vnd.github+json" \
+              -f source[branch]=gh-pages \
+              -f source[path]='/' \
+              && echo "pages updated" \
+              || echo "pages API still refused"
