@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -15,6 +15,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  enable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable GitHub Pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST repos/${{ github.repository }}/pages \
+            -H "Accept: application/vnd.github+json" \
+            -f build_type=workflow || true
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +34,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      - run: npm install
       - run: bash scripts/pin-stills.sh
       - run: npm run build
         env:
@@ -34,7 +45,7 @@ jobs:
           path: out
 
   deploy:
-    needs: build
+    needs: [enable, build]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
