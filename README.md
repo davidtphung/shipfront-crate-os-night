@@ -48,6 +48,10 @@ Open [http://127.0.0.1:43147](http://127.0.0.1:43147).
 GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/shipfront-crate-os-night npm run build
 ```
 
-The static export is written to `out/`. `.github/workflows/pages.yml` deploys it.
+The static export is written to `out/` and published to the `gh-pages` branch.
+
+GitHub Pages has to be switched on once in the repo settings (a workflow token cannot create the Pages site):
+
+Settings, then Pages, then Source: Deploy from a branch, branch `gh-pages`, folder `/ (root)`.
 
 Copy is held from crate-os / [myshipfront.com](https://www.myshipfront.com/). Footer: Built by David T Phung.
